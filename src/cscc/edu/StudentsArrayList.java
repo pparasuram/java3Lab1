@@ -9,17 +9,19 @@ public class StudentsArrayList {
     static final int higestGrade = 100;
     List<studentGrades> students = new ArrayList<studentGrades>();
     private static Scanner input = new Scanner(System.in);
-    public void studentsArrayL(String[] args) {
+    public void studentsArrayListMain() {
         // write your code here
-
         boolean done = false;
         System.out.println("!!! Student Grades Program !!!");
         while (!done) {
             printMenu();
             switch (getValidInput()){
-                case 5:
+                case 6:
                     done = true;
                     System.out.println("Bye from Student Grade program");
+                    break;
+                case 5:
+                    findFirst(students);
                     break;
                 case 4:
                     fillStudents(students);
@@ -28,7 +30,7 @@ public class StudentsArrayList {
                     listAllStudents();
                     break;
                 case 2:
-                    findFirstMatchingStudent(".*");
+                    findStudent(students);
                     break;
                 case 1:
                     addStudent(students);
@@ -40,15 +42,35 @@ public class StudentsArrayList {
         } // end of while
     } // end of main
 
+    private void findFirst(List<studentGrades> students) {
+        System.out.println("\n");
+        System.out.println("Enter Student Name to find (any matching regex string)");
+        String str = input.nextLine();
+        for (studentGrades student : students) {
+            studentGrades.gradeLetter g = student.getStudentGrade();
+            String name = student.getStudentName();
+            String grade = student.getStudentGrade().toString(student.getStudentGrade());
+            if (name.matches(str)) {
+                printOneStudent(student, name);
+                break;
+            }
+        }
+    }
+
     public Object listAllStudents() {
         System.out.println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("All Students listed below:");
         students.forEach((student) -> {
             String name = student.getStudentName();
-            System.out.println("Student Name: " + name + " His Grade is: " + student.getStudentGrade().toString(student.getStudentGrade()));
+            printOneStudent(student, name);
         });
         return null;
     }
+
+    private static void printOneStudent(studentGrades student, String name) {
+        System.out.println("Student Name: " + name + " His Grade is: " + student.getStudentGrade().toString(student.getStudentGrade()));
+    }
+
     private static void findStudent(List<studentGrades> students) {
         System.out.println("\n");
         System.out.println("Enter Student Name to find (any matching regex string)");
@@ -56,7 +78,7 @@ public class StudentsArrayList {
         students.forEach((student) -> {
             String name = student.getStudentName();
             if (name.matches(str)) {
-                System.out.println("Student Name: " + name + " His Grade is: " + student.getStudentGrade().toString(student.getStudentGrade()));
+                printOneStudent(student, name);
             }
         });
     }
@@ -143,7 +165,8 @@ public class StudentsArrayList {
         System.out.println("Enter 2 for Find Student");
         System.out.println("Enter 3 for List all Students");
         System.out.println("Enter 4 to fill student data for testing with inline data");
-        System.out.println("Enter 5 To end");
+        System.out.println("Enter 5 to find first matching student, only one");
+        System.out.println("Enter 6 To end");
     } // end of printmenu
     public void fillStudents(List<studentGrades> students) {
         studentGrades student = new studentGrades("prakash parasuram", studentGrades.gradeLetter.toGradeLetter(93));
